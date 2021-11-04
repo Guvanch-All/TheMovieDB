@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:the_movie_db/UI/app_theme.dart';
+import 'package:the_movie_db/UI/main_screen/main_screen_widget.dart';
+
+FocusNode myFocusNode = FocusNode();
 
 class AuthWidget extends StatefulWidget {
   const AuthWidget({Key? key}) : super(key: key);
@@ -57,9 +59,9 @@ class _HeaderWidget extends StatelessWidget {
                   color: const Color.fromRGBO(1, 180, 228, 1)),
             )),
         const SizedBox(height: 25),
-        const Text(
+        Text(
           "If you signed up but didn't get your verification email ",
-          style: textFont.customTextStyle,
+          style: Theme.of(context).textTheme.bodyText1!,
         ),
         TextButton(
             onPressed: () {},
@@ -74,26 +76,36 @@ class _HeaderWidget extends StatelessWidget {
   }
 }
 
-class _TextField extends StatelessWidget {
+class _TextField extends StatefulWidget {
   const _TextField({Key? key}) : super(key: key);
+
+  @override
+  State<_TextField> createState() => _TextFieldState();
+}
+
+class _TextFieldState extends State<_TextField> {
+  bool obscurePassword = true;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(
+        const TextField(
           decoration: InputDecoration(
             labelText: 'Username',
-            labelStyle: const TextStyle(fontSize: 17),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
           ),
         ),
         const SizedBox(height: 15),
         TextField(
+          obscureText: obscurePassword,
           decoration: InputDecoration(
             labelText: 'Password',
-            labelStyle: const TextStyle(fontSize: 17),
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+            suffixIcon: IconButton(
+              onPressed: () =>
+                  setState(() => obscurePassword = !obscurePassword),
+              icon: Icon(
+                  obscurePassword ? Icons.visibility : Icons.visibility_off),
+            ),
           ),
         ),
       ],
@@ -112,7 +124,10 @@ class _ActionButtons extends StatelessWidget {
           height: 50,
           width: 140,
           child: RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+               Navigator.of(context).pushNamed('/main_screen');
+              // Navigator.of(context).pushReplacementNamed('/main_screen');
+            },
             child: Text(
               'Login',
               style: Theme.of(context)

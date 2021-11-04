@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'input_theme.dart';
 import 'style_constants.dart';
 
 ThemeData basicTheme() => ThemeData(
     brightness: Brightness.light,
-
+  appBarTheme: AppBarTheme(
+    color: ltAppBarColor
+  ),
     textTheme:  TextTheme(
         headline6: TextStyle(
       fontFamily: defaultFont,
-      color: primaryWhiteColor,
+      color: ltPrimaryWhiteColor,
     ),
 
     bodyText1: TextStyle(
       fontFamily: defaultFont,
-      color: primaryTextColor,
+      color: ltPrimaryTextColor,
       fontSize: defaultTextSize,
       height: 1.5
     ),
@@ -20,13 +23,20 @@ ThemeData basicTheme() => ThemeData(
 
     buttonTheme: ButtonThemeData(
     height: 50,
-    buttonColor: primaryButtonColor,
+    buttonColor: ltPrimaryAccentBlueColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(5)
       ),
-  )
+  ),
+
+
+inputDecorationTheme: MyInputTheme().theme(),
 
 
 );
 
+ThemeData basicDarkTheme() => ThemeData(
+
+
+);
 
