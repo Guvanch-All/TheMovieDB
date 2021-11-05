@@ -22,17 +22,9 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Widget> _widgetOptions = <Widget>[
-      const  Text('data сериалы'),
-      const MoveListWidget(),
-      const Text('data сериалы'),
-    ];
+    final List<Widget> _widgetOptions = <Widget>[];
     final items = [
-      const Icon(
-        Icons.home,
-        size: 30,
-        color: Colors.white,
-      ),
+      const Icon(Icons.home, size: 30, color: Colors.white),
       const Icon(Icons.tv, size: 30, color: Colors.white),
       const Icon(Icons.movie_filter, size: 30, color: Colors.white),
     ];
@@ -50,9 +42,11 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         height: 60,
         onTap: (index) => setState(() => _selectedTab = index),
       ),
-      body: Center(
-        child: _widgetOptions[_selectedTab],
-      ),
+      body: IndexedStack(index: _selectedTab, children: [
+        const Text('data сериалы'),
+        MoveListWidget(),
+        const Text('data сериалы'),
+      ]),
     );
   }
 }

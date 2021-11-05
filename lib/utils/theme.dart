@@ -19,6 +19,14 @@ ThemeData basicTheme() => ThemeData(
       fontSize: defaultTextSize,
       height: 1.5
     ),
+      bodyText2: TextStyle(
+          fontFamily: defaultFont,
+          color: ltPrimaryTextColor,
+          fontWeight: FontWeight.bold,
+          fontSize: 15,
+          height: 1.5
+      ),
+
     ),
 
     buttonTheme: ButtonThemeData(
@@ -36,7 +44,7 @@ inputDecorationTheme: MyInputTheme().theme(),
 );
 
 ThemeData basicDarkTheme() => ThemeData(
-
+  brightness: Brightness.dark,
 
 );
 
