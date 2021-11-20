@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:the_movie_db/draw_progress.dart';
+import 'package:the_movie_db/utils/widget_draw/draw_progress.dart';
 import 'package:the_movie_db/resources/resources.dart';
 import 'package:the_movie_db/utils/style_constants.dart';
 

@@ -2,8 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:the_movie_db/resources/resources.dart';
 import 'package:the_movie_db/utils/style_constants.dart';
+import '../../../../main.dart';
 
-import '../../../main.dart';
 
 class MovieDetailsZMainCastWidget extends StatelessWidget {
   const MovieDetailsZMainCastWidget({Key? key}) : super(key: key);
@@ -16,7 +16,7 @@ class MovieDetailsZMainCastWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               child: Text(
                 'Series Cast',
                 style: lightTheme == true ? Theme.of(context).textTheme.bodyText2:

@@ -26,6 +26,11 @@ ThemeData basicTheme() => ThemeData(
           fontSize: 15,
           height: 1.5
       ),
+      caption: TextStyle(
+        fontSize: 17,
+        color: ltPrimaryRedColor,
+        fontFamily: defaultFont,
+      )
 
     ),
 

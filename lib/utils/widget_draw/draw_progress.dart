@@ -12,12 +12,12 @@ class Example extends StatefulWidget {
 class _ExampleState extends State<Example> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
         body: Center(
-      child: Container(
+      child: SizedBox(
         width: 100,
         height: 100,
-        child: const RadialPercentWidget(
+        child: RadialPercentWidget(
           percent: 0.50,
           fillColor: Colors.black,
           lineColor: Colors.green,

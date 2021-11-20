@@ -1,6 +1,8 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:the_movie_db/UI/movie/move_list_widget.dart';
+import 'package:the_movie_db/UI/widgets/main_news/news_widget.dart';
+import 'package:the_movie_db/UI/widgets/movie/move_list_widget.dart';
+import 'package:the_movie_db/domain/data_providers/session_data_provider.dart';
 import 'package:the_movie_db/utils/style_constants.dart';
 
 class MainScreenWidget extends StatefulWidget {
@@ -32,6 +34,11 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       appBar: AppBar(
         title: const Text('My Movie DB'),
         centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: ()=> SessionDataProvider().setSessionId(null),
+              icon: const Icon(Icons.logout))
+        ],
       ),
       bottomNavigationBar: CurvedNavigationBar(
         index: _selectedTab,
@@ -43,7 +50,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         onTap: (index) => setState(() => _selectedTab = index),
       ),
       body: IndexedStack(index: _selectedTab, children: [
-        const Text('data сериалы'),
+        const NewsWidget(),
         MoveListWidget(),
         const Text('data сериалы'),
       ]),

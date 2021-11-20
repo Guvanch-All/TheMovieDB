@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:the_movie_db/UI/main_screen/main_screen_widget.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:the_movie_db/utils/style_constants.dart';
+
+import 'model/auth_model.dart';
 
 FocusNode myFocusNode = FocusNode();
 
@@ -22,9 +25,7 @@ class _AuthWidgetState extends State<AuthWidget> {
           child: ListView(
             children: const [
               SizedBox(height: 20),
-              _TextField(),
-              SizedBox(height: 25),
-              _ActionButtons(),
+              _FormWidget(),
               SizedBox(height: 20),
               _HeaderWidget(),
             ],
@@ -76,77 +77,100 @@ class _HeaderWidget extends StatelessWidget {
   }
 }
 
-class _TextField extends StatefulWidget {
-  const _TextField({Key? key}) : super(key: key);
+class _FormWidget extends StatelessWidget {
+  const _FormWidget({Key? key}) : super(key: key);
 
-  @override
-  State<_TextField> createState() => _TextFieldState();
-}
-
-class _TextFieldState extends State<_TextField> {
-  bool obscurePassword = true;
-
-  @override
   Widget build(BuildContext context) {
+    final model = AuthProvider.read(context)?.model;
+    bool obscurePassword = true;
     return Column(
       children: [
-        const TextField(
-          decoration: InputDecoration(
+        const _ErrorMessageWidget(),
+        TextField(
+          controller: model?.loginTextController,
+          decoration: const InputDecoration(
             labelText: 'Username',
           ),
         ),
         const SizedBox(height: 15),
         TextField(
+          controller: model?.passwordTextController,
           obscureText: obscurePassword,
           decoration: InputDecoration(
             labelText: 'Password',
             suffixIcon: IconButton(
-              onPressed: () =>
-                  setState(() => obscurePassword = !obscurePassword),
+              onPressed: () {},
+              // setState(() => obscurePassword = !obscurePassword),
               icon: Icon(
                   obscurePassword ? Icons.visibility : Icons.visibility_off),
             ),
           ),
+        ),
+        const SizedBox(height: 25),
+        Row(
+          children: [
+            const SizedBox(
+              height: 50,
+              width: 140,
+              child: _AuthButtonWidget(),
+            ),
+            const SizedBox(width: 50),
+            TextButton(
+                onPressed: () {},
+                child: Text(
+                  'Reset Password',
+                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: const Color.fromRGBO(1, 180, 228, 1)),
+                )),
+          ],
         ),
       ],
     );
   }
 }
 
-class _ActionButtons extends StatelessWidget {
-  const _ActionButtons({Key? key}) : super(key: key);
+class _AuthButtonWidget extends StatelessWidget {
+  const _AuthButtonWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          height: 50,
-          width: 140,
-          child: RaisedButton(
-            onPressed: () {
-               Navigator.of(context).pushNamed('/main_screen');
-              // Navigator.of(context).pushReplacementNamed('/main_screen');
-            },
-            child: Text(
-              'Login',
-              style: Theme.of(context)
-                  .textTheme
-                  .bodyText1!
-                  .copyWith(fontWeight: FontWeight.bold, color: Colors.white),
-            ),
-          ),
-        ),
-        const SizedBox(width: 50),
-        TextButton(
-            onPressed: () {},
-            child: Text(
-              'Reset Password',
-              style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: const Color.fromRGBO(1, 180, 228, 1)),
-            )),
-      ],
+    final model = AuthProvider.watch(context)?.model;
+    final onPressed =
+        model?.canStartAuth == true ? () => model?.auth(context) : null;
+    final text = model?.isAuthProgress == true
+        ?  const SizedBox(
+            height: 15, width: 15, child: SpinKitDualRing(color: Colors.grey,))
+        : Text('Login',
+            style: Theme.of(context)
+                .textTheme
+                .bodyText1!
+                .copyWith(fontWeight: FontWeight.bold, color: Colors.white));
+    return ElevatedButton(
+      onPressed: onPressed,
+      child: text,
+    );
+  }
+}
+
+class _ErrorMessageWidget extends StatelessWidget {
+  const _ErrorMessageWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final errorMessage = AuthProvider.watch(context)?.model.errorMessage;
+    if (errorMessage == null) {
+      return const SizedBox.shrink();
+    }
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 20),
+      child: Text(errorMessage,
+          style: Theme.of(context)
+              .textTheme
+              .bodyText1!
+              .copyWith(color: ltPrimaryRedColor)),
     );
   }
 }

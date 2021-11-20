@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:the_movie_db/UI/navigation/main_navigation.dart';
 import 'package:the_movie_db/resources/resources.dart';
-import 'package:the_movie_db/utils/style_constants.dart';
-
-import '../../main.dart';
+import '../../../main.dart';
 
 class Movie {
   final int id;
@@ -171,7 +170,7 @@ class _MoveListWidgetState extends State<MoveListWidget> {
   }
   void _onMovieTap(int index){
     final id =_movies[index].id;
-    Navigator.of(context).pushNamed('/main_screen/movie_details',arguments: id);
+    Navigator.of(context).pushNamed(MainNavigationRouteNames.movieDetails,arguments: id);
 
   }
   @override
