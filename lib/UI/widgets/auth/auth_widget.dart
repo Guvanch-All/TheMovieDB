@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:the_movie_db/Library/Widget/Inherited/provider.dart';
 import 'package:the_movie_db/utils/style_constants.dart';
 
 import 'model/auth_model.dart';
@@ -81,7 +82,7 @@ class _FormWidget extends StatelessWidget {
   const _FormWidget({Key? key}) : super(key: key);
 
   Widget build(BuildContext context) {
-    final model = AuthProvider.read(context)?.model;
+    final model = NotifierProvider.read<AuthModel>(context);
     bool obscurePassword = true;
     return Column(
       children: [
@@ -137,7 +138,7 @@ class _AuthButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = AuthProvider.watch(context)?.model;
+    final model = NotifierProvider.watch<AuthModel>(context);
     final onPressed =
         model?.canStartAuth == true ? () => model?.auth(context) : null;
     final text = model?.isAuthProgress == true
@@ -160,7 +161,7 @@ class _ErrorMessageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final errorMessage = AuthProvider.watch(context)?.model.errorMessage;
+    final errorMessage = NotifierProvider.watch<AuthModel>(context)?.errorMessage;
     if (errorMessage == null) {
       return const SizedBox.shrink();
     }

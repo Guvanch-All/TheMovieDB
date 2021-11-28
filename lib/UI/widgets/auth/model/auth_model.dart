@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:the_movie_db/UI/navigation/main_navigation.dart';
 import 'package:the_movie_db/domain/api_client/api_client.dart';
@@ -38,8 +40,19 @@ class AuthModel extends ChangeNotifier {
         username: login,
         password: password,
       );
-    } catch (e) {
-      _errorMessage = 'Неправильный логин пароль!';
+    } on ApiClientException catch (e) {
+      switch (e.type) {
+        case ApiClientExceptionType.Network:
+          _errorMessage =
+              'Сервер не доступен, Проверте подключение к интернету';
+          break;
+        case ApiClientExceptionType.Auth:
+          _errorMessage = 'Неправильный логин пароль!';
+          break;
+        case ApiClientExceptionType.Other:
+          _errorMessage = 'Ой, что-то пошло не так, попробуйте ещё раз';
+          break;
+      }
     }
     _isAuthProgress = false;
     if (_errorMessage != null) {
@@ -52,30 +65,31 @@ class AuthModel extends ChangeNotifier {
       return;
     }
     _sessionDataProvider.setSessionId(sessionId);
-    Navigator.of(context).pushReplacementNamed(MainNavigationRouteNames.mainScreen);
+    Navigator.of(context)
+        .pushReplacementNamed(MainNavigationRouteNames.mainScreen);
   }
 }
 
-class AuthProvider extends InheritedNotifier {
-  final AuthModel model;
-
-  const AuthProvider({
-    Key? key,
-    required this.model,
-    required Widget child,
-  }) : super(
-          key: key,
-          notifier: model,
-          child: child,
-        );
-
-  static AuthProvider? watch(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<AuthProvider>();
-  }
-
-  static AuthProvider? read(BuildContext context) {
-    final widget =
-        context.getElementForInheritedWidgetOfExactType<AuthProvider>()?.widget;
-    return widget is AuthProvider ? widget : null;
-  }
-}
+// class AuthProvider extends InheritedNotifier {
+//   final AuthModel model;
+//
+//   const AuthProvider({
+//     Key? key,
+//     required this.model,
+//     required Widget child,
+//   }) : super(
+//           key: key,
+//           notifier: model,
+//           child: child,
+//         );
+//
+//   static AuthProvider? watch(BuildContext context) {
+//     return context.dependOnInheritedWidgetOfExactType<AuthProvider>();
+//   }
+//
+//   static AuthProvider? read(BuildContext context) {
+//     final widget =
+//         context.getElementForInheritedWidgetOfExactType<AuthProvider>()?.widget;
+//     return widget is AuthProvider ? widget : null;
+//   }
+// }
