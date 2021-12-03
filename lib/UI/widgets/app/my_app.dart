@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:the_movie_db/UI/navigation/main_navigation.dart';
 import 'package:the_movie_db/utils/theme.dart';
 
@@ -19,6 +20,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'My Movie DB',
       theme: lightTheme == true ? basicTheme() : basicDarkTheme(),
+      localizationsDelegates: const [
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''), // English, no country code
+        Locale('ru', ''), // Russian, no country code
+      ],
       routes: mainNavigation.routes,
       initialRoute: mainNavigation.initialRoute(model.isAuth),
       onGenerateRoute: mainNavigation.onGenerateRoute,
