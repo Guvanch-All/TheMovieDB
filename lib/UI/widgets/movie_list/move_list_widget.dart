@@ -14,7 +14,7 @@ class MoveListWidget extends StatelessWidget {
     return Stack(
       children: [
         ListView.builder(
-          padding: const EdgeInsets.only(top: 70),
+          padding: const EdgeInsets.only(top: 20),
           physics: const BouncingScrollPhysics(),
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           itemCount: model.movies.length,
@@ -78,7 +78,7 @@ class MoveListWidget extends StatelessWidget {
                               ),
                               const SizedBox(height: 15),
                               Text(
-                                movie.overview ?? '...',
+                                movie.overview,
                                 maxLines: 2,
                                 overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.bodyText1,
@@ -103,25 +103,6 @@ class MoveListWidget extends StatelessWidget {
             );
           },
         ),
-        Padding(
-            padding: const EdgeInsets.all(10),
-            child: TextField(
-              decoration: InputDecoration(
-                labelText: 'Поиск',
-                labelStyle: TextStyle(
-                  color: lightTheme == true ? Colors.black : Colors.white,
-                ),
-                filled: true,
-                fillColor: lightTheme == true
-                    ? Colors.white.withAlpha(235)
-                    : Colors.black.withAlpha(200),
-                suffixIcon: const Icon(
-                  Icons.search,
-                  size: 25,
-                ),
-                border: const OutlineInputBorder(),
-              ),
-            ))
       ],
     );
   }

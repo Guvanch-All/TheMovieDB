@@ -5,8 +5,11 @@ import 'package:the_movie_db/UI/widgets/main_news/news_widget.dart';
 import 'package:the_movie_db/UI/widgets/movie_list/model/movie_list_model.dart';
 import 'package:the_movie_db/UI/widgets/tv_show_list/tv_show_list.dart';
 import 'package:the_movie_db/UI/widgets/movie_list/move_list_widget.dart';
-import 'package:the_movie_db/domain/data_providers/session_data_provider.dart';
 import 'package:the_movie_db/utils/style_constants.dart';
+
+import '../../../main.dart';
+
+final _movieListModel = MovieListModel();
 
 class MainScreenWidget extends StatefulWidget {
   const MainScreenWidget({Key? key}) : super(key: key);
@@ -17,7 +20,6 @@ class MainScreenWidget extends StatefulWidget {
 
 class _MainScreenWidgetState extends State<MainScreenWidget> {
   int _selectedTab = 1;
-  final movieListModel = MovieListModel();
 
   void onSelectedTab(int index) {
     if (_selectedTab == index) return;
@@ -26,10 +28,10 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     });
   }
 
-   @override
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    movieListModel.setupLocale(context);
+    _movieListModel.setupLocale(context);
   }
 
   @override
@@ -42,14 +44,13 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
     ];
     return Scaffold(
       appBar: AppBar(
-        title: const Text('My Movie DB'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-              onPressed: ()=> SessionDataProvider().setSessionId(null),
-              icon: const Icon(Icons.logout))
-        ],
-      ),
+          centerTitle: true,
+          title:
+              _selectedTab == 1 ? SearchBarWidget() : const Text('My Movie DB')
+          // IconButton(
+          //     onPressed: ()=> SessionDataProvider().setSessionId(null),
+          //     icon: const Icon(Icons.logout)),
+          ),
       bottomNavigationBar: CurvedNavigationBar(
         index: _selectedTab,
         animationCurve: Curves.easeOutExpo,
@@ -59,11 +60,60 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
         height: 60,
         onTap: (index) => setState(() => _selectedTab = index),
       ),
-      body: IndexedStack(index: _selectedTab, children:  [
+      body: IndexedStack(index: _selectedTab, children: [
         const NewsWidget(),
-        NotifierProvider(model: movieListModel, child: const MoveListWidget()),
+        NotifierProvider(model: _movieListModel, child: const MoveListWidget()),
         const TVShowListWidget()
       ]),
     );
   }
+}
+
+class SearchBarWidget extends StatelessWidget {
+  SearchBarWidget({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Expanded(
+            child: TextField(
+          style: const TextStyle(color: Colors.white),
+          onChanged: _movieListModel.searchMovie,
+          decoration: InputDecoration(
+            prefixIcon: const Icon(
+              Icons.search,
+              size: 18,
+              color: Colors.white,
+            ),
+            labelStyle: TextStyle(
+              color: lightTheme == true ? Colors.black : Colors.white,
+            ),
+            isDense: true,
+            hintText: 'Поиск филма',
+            hintStyle: const TextStyle(color: Colors.grey, height: 0.7),
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            constraints: const BoxConstraints(maxWidth: 200, maxHeight: 40),
+            enabledBorder: _buildBorder(Colors.white),
+            focusedBorder: _buildBorder(Colors.blueAccent),
+          ),
+        )),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            IconButton(onPressed: () {}, icon: const Icon(Icons.person)),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+OutlineInputBorder _buildBorder(Color color) {
+  return OutlineInputBorder(
+      borderRadius: BorderRadius.circular(10),
+      borderSide: BorderSide(
+        color: color,
+        width: 2.0,
+      ));
 }
