@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:the_movie_db/domain/entity/movie_details.dart';
 import 'package:the_movie_db/domain/entity/popular_movie_response.dart';
 
 enum ApiClientExceptionType { Network, Auth, Other }
@@ -145,6 +146,26 @@ class ApiClient {
     return result;
   }
 
+  Future<MovieDetails> movieDetails(
+      int movieId,
+      String locale,
+      ) async {
+      final parser = (dynamic json) {
+      final jsonMap = json as Map<String, dynamic>;
+      final response = MovieDetails.fromJson(jsonMap);
+      return response;
+    };
+    final result = _get(
+      '/movie/$movieId',
+      parser,
+      <String, dynamic>{
+        'append_to_response':'credits,videos' ,
+        'api_key': _apiKey,
+        'language': locale,
+      },
+    );
+    return result;
+  }
 
   ///Валидация пользователя
   Future<String> _validateUser({

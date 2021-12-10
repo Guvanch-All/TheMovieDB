@@ -62,7 +62,11 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
       ),
       body: IndexedStack(index: _selectedTab, children: [
         const NewsWidget(),
-        NotifierProvider(model: _movieListModel, child: const MoveListWidget()),
+        NotifierProvider(
+          create: () => _movieListModel,
+          isManageModel: false,
+          child: const MoveListWidget(),
+        ),
         const TVShowListWidget()
       ]),
     );
@@ -70,7 +74,7 @@ class _MainScreenWidgetState extends State<MainScreenWidget> {
 }
 
 class SearchBarWidget extends StatelessWidget {
-  SearchBarWidget({Key? key}) : super(key: key);
+  const SearchBarWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

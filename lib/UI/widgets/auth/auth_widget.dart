@@ -81,6 +81,7 @@ class _HeaderWidget extends StatelessWidget {
 class _FormWidget extends StatelessWidget {
   const _FormWidget({Key? key}) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     final model = NotifierProvider.read<AuthModel>(context);
     bool obscurePassword = true;
