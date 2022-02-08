@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:the_movie_db/resources/resources.dart';
-import 'package:the_movie_db/utils/widget_draw/draw_progress.dart';
+import 'package:the_movie_db/core/resources/resources.dart';
+import 'package:the_movie_db/core/utils/widget_draw/draw_progress.dart';
 
 class NewsWidgetFreeToWatch extends StatefulWidget {
   const NewsWidgetFreeToWatch({Key? key}) : super(key: key);

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:the_movie_db/UI/navigation/main_navigation.dart';
-import 'package:the_movie_db/resources/resources.dart';
-import 'package:the_movie_db/utils/style_constants.dart';
-
+import 'package:the_movie_db/core/app/navigation/main_navigation.dart';
+import 'package:the_movie_db/core/resources/resources.dart';
 import '../../../main.dart';
 
 class TVShow {

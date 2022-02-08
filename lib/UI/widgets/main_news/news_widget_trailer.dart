@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:the_movie_db/resources/resources.dart';
-import 'package:the_movie_db/utils/style_constants.dart';
+import 'package:the_movie_db/core/resources/resources.dart';
+import 'package:the_movie_db/core/utils/style_constants.dart';
 
 class NewsWidgetTrailer extends StatefulWidget {
   const NewsWidgetTrailer({Key? key}) : super(key: key);

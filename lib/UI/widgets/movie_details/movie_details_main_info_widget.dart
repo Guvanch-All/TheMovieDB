@@ -1,11 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:the_movie_db/Library/Widget/Inherited/provider.dart';
-import 'package:the_movie_db/UI/navigation/main_navigation.dart';
+import 'package:the_movie_db/core/Library/Widget/Inherited/provider.dart';
+import 'package:the_movie_db/core/app/navigation/main_navigation.dart';
+import 'package:the_movie_db/core/api/image_downloader.dart';
 import 'package:the_movie_db/domain/api_client/api_client.dart';
 import 'package:the_movie_db/domain/entity/movie_details_credits.dart';
-import 'package:the_movie_db/utils/widget_draw/draw_progress.dart';
-import 'package:the_movie_db/utils/style_constants.dart';
+import 'package:the_movie_db/core/utils/widget_draw/draw_progress.dart';
+import 'package:the_movie_db/core/utils/style_constants.dart';
 import 'model/movie_details_model.dart';
 
 class MovieDetailsMainInfoWidget extends StatelessWidget {
@@ -48,15 +49,27 @@ class TopPosters extends StatelessWidget {
       child: Stack(
         children: [
           backdropPath != null
-              ? Image.network(ApiClient.imageUrl(backdropPath))
+              ? Image.network(ImageDownloader.imageUrl(backdropPath))
               : const SizedBox.shrink(),
           Positioned(
               top: 20,
               left: 20,
               bottom: 20,
               child: posterPath != null
-                  ? Image.network(ApiClient.imageUrl(posterPath))
-                  : const SizedBox.shrink())
+                  ? Image.network(ImageDownloader.imageUrl(posterPath))
+                  : const SizedBox.shrink()),
+          Positioned(
+            top: 5,
+            right: 5,
+            child: IconButton(
+              onPressed: () {},
+              icon: Icon(
+                model?.isFavorite == true
+                    ? Icons.favorite
+                    : Icons.favorite_outline,
+              ),
+            ),
+          )
         ],
       ),
     );
@@ -97,10 +110,10 @@ class _ScoreWidget extends StatelessWidget {
     final movieDetails =
         NotifierProvider.watch<MovieDetailsModel>(context)?.movieDetails;
     var voteAverage = movieDetails?.voteAverage ?? 0;
-   final videos= movieDetails?.videos.results.where((videos) =>
-   videos.type =='Trailer' && videos.site=="YouTube");
-   final trailerKey = videos?.isNotEmpty==true ? videos?.first.key : null;
-   voteAverage = voteAverage * 10;
+    final videos = movieDetails?.videos.results.where(
+        (videos) => videos.type == 'Trailer' && videos.site == "YouTube");
+    final trailerKey = videos?.isNotEmpty == true ? videos?.first.key : null;
+    voteAverage = voteAverage * 10;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -128,21 +141,22 @@ class _ScoreWidget extends StatelessWidget {
           ),
         ),
         Container(width: 1, height: 15, color: Colors.grey),
-        trailerKey != null ?
-        TextButton(
-          //TODO навигацию Вынести в модель
-            onPressed: () => Navigator.of(context).pushNamed(MainNavigationRouteNames
-                .movieTrailerWidget,
-            arguments: trailerKey),
-            child: Row(
-              children: const [
-                Icon(
-                  Icons.play_arrow,
-                  size: 30,
-                ),
-                Text('Play Trailer'),
-              ],
-            )): const SizedBox.shrink(),
+        trailerKey != null
+            ? TextButton(
+                //TODO навигацию Вынести в модель
+                onPressed: () => Navigator.of(context).pushNamed(
+                    MainNavigationRouteNames.movieTrailerWidget,
+                    arguments: trailerKey),
+                child: Row(
+                  children: const [
+                    Icon(
+                      Icons.play_arrow,
+                      size: 30,
+                    ),
+                    Text('Play Trailer'),
+                  ],
+                ))
+            : const SizedBox.shrink(),
       ],
     );
   }
@@ -237,7 +251,7 @@ class _MainRole extends StatelessWidget {
     return Column(
         children: crewChunks
             .map((chunk) => Padding(
-                  padding: const EdgeInsets.only(bottom: 20,left: 5),
+                  padding: const EdgeInsets.only(bottom: 20, left: 5),
                   child: _MainRoleRow(employes: chunk),
                 ))
             .toList());

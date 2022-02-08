@@ -1,9 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:the_movie_db/Library/Widget/Inherited/provider.dart';
-import 'package:the_movie_db/domain/api_client/api_client.dart';
-import 'package:the_movie_db/resources/resources.dart';
-import 'package:the_movie_db/utils/style_constants.dart';
+import 'package:the_movie_db/core/Library/Widget/Inherited/provider.dart';
+import 'package:the_movie_db/core/api/image_downloader.dart';
+import 'package:the_movie_db/core/utils/style_constants.dart';
 import '../../../../main.dart';
 import 'model/movie_details_model.dart';
 
@@ -35,7 +34,7 @@ class MovieDetailsZMainCastWidget extends StatelessWidget {
             padding: const EdgeInsets.all(3),
             child: TextButton(
               onPressed: () {},
-              child: Text('Full Cast & Crew'),
+              child: const Text('Full Cast & Crew'),
             ),
           )
         ],
@@ -103,7 +102,7 @@ class _ActorListItemWidget extends StatelessWidget {
               children:   [
                 backdropPath != null
                     ? Image.network(
-                  ApiClient.imageUrl(backdropPath),
+                  ImageDownloader.imageUrl(backdropPath),
                   width: 110,
                   height: 110,
                   fit: BoxFit.fitWidth,

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:the_movie_db/Library/Widget/Inherited/provider.dart';
+import 'package:the_movie_db/core/Library/Widget/Inherited/provider.dart';
 import 'package:the_movie_db/UI/widgets/movie_details/model/movie_details_model.dart';
 
 import 'movie_details_main_cast_widget.dart';
