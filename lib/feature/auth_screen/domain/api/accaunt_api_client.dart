@@ -8,19 +8,19 @@ import 'package:the_movie_db/domain/entity/account_get_info.dart';
 class AccountApiClient{
   final _networkClient = NetworkClient();
 
-  Future<AccountGetInfo> getAccountInfo(
+  Future<int> getAccountInfo(
       String sessionId,
       ) async {
-    AccountGetInfo parser (dynamic json) {
+    int parser(dynamic json) {
       final jsonMap = json as Map<String, dynamic>;
-      final response = AccountGetInfo.fromJson(jsonMap);
-      return response;
-    };
+      final result = jsonMap['id'] as int;
+      return result;
+    }
+
     final result = _networkClient.get(
       '/account',
       parser,
       <String, dynamic>{
-        'append_to_response': 'credits,videos',
         'api_key': Configuration.apiKey,
         'session_id': sessionId,
       },
